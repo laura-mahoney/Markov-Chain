@@ -1,5 +1,5 @@
-#from random import choice
 import random
+
 
 def open_and_read_file(file_path):
     """Takes file path as string; returns text as string.
@@ -9,7 +9,6 @@ def open_and_read_file(file_path):
     """
 
     read_all_file = open(file_path).read()
-
 
     return read_all_file
 
@@ -29,12 +28,12 @@ def make_chains(text_string):
 
     chains = {}
 
-    word_list = open_and_read_file(text_string).split()
+    word_list = text_string.split()
 
     for i in range(len(word_list) - 2):
         first_word = word_list[i]
         second_word = word_list[i+1]
-        value = [word_list[i+2]]
+        value = word_list[i+2]
         key_pair = (first_word, second_word)
         if key_pair not in chains:
             chains[key_pair] = [value]
@@ -48,46 +47,31 @@ def make_chains(text_string):
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
-    text = ""
-    our_key = random.choice(chains.keys())
-    #print key
+    our_key = random.choice(chains.keys())  # new list from rand keys in chains dict
 
-    text = "{} {}".format(our_key[0], our_key[1])
-    #print text
+    text = "{} {}".format(our_key[0], our_key[1])  # init text print statement with first key/tuple, 
 
-    while our_key in chains:
-        
+    while our_key in chains:  # loop through if our_key is found in chain dict
+
         chosen_word = random.choice(chains[our_key])
+        new_key = (our_key[1], chosen_word)
 
-        new_key = (our_key[1], chosen_word[0])
-        
-        #print new_key
-
-        if new_key in chains:
-            temp_text = "{}".format(chosen_word[0])
+        if new_key in chains:  # if the new_key is found in dict
+            text = text + " " + chosen_word  # add a random word from chains key
         our_key = new_key
-            #chosen_word = random.choice(new_key)
-            # print temp_text
-        # else:
-        #     print "Error"
-        #     break
-        
-        text = text + " " + temp_text
-    return text 
 
-my_dictionary = make_chains("green-eggs.txt")
-print make_text(my_dictionary)
+    return text + " " + new_key[1]
 
 
-# input_path = "green-eggs.txt"
+input_path = "gettysburg.txt"
 
-# # Open the file and turn it into one long string
-# input_text = open_and_read_file(input_path)
+# Open the file and turn it into one long string
+input_text = open_and_read_file(input_path)
 
-# # Get a Markov chain
-# chains = make_chains(input_text)
+# Get a Markov chain
+chains = make_chains(input_text)
 
-# # Produce random text
-# random_text = make_text(chains)
+# Produce random text
+random_text = make_text(chains)
 
-# print random_text
+print random_text
