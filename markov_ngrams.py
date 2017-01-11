@@ -13,6 +13,10 @@ def open_and_read_file(file_path):
     return read_all_file
 
 
+def make_ngrams(number):
+
+    for i in range()
+
 def make_chains(text_string):
     """Takes input text as string; returns _dictionary_ of markov chains.
 
